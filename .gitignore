@@ -1,0 +1,4 @@
+*.vsc*
+.DS_Store
+*dSYM*
+*build*
