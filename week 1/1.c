@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-순위 r은 head = 0부터 1씩 증가한다고 가정.
-*/
-
 typedef struct	s_node{
     char	elem;
     struct s_node *prev;
     struct s_node *next;
 }	t_node ;
 
+// head와 trailer를 제외한 리스트의 크기를 반환
 int	list_size(t_node **list)
 {
 	t_node	*p = *list;
@@ -24,7 +21,7 @@ int	list_size(t_node **list)
 	return (r - 2);
 }
 
-// 크기보다 크거나 작은 r에 대한 예외처리 X
+// 노드 삽입
 int	add(t_node **list, int r, char e)
 {
 	t_node	*p = *list;
@@ -48,6 +45,7 @@ int	add(t_node **list, int r, char e)
 	return (0);
 }
 
+// 노드 삭제
 int	delete(t_node **list, int r)
 {
 	t_node	*p = *list;
@@ -64,6 +62,7 @@ int	delete(t_node **list, int r)
 	return (0);
 }
 
+// 노드의 값 반환
 char	get_entry(t_node **list, int r)
 {
 	t_node	*p = *list;
@@ -78,11 +77,27 @@ char	get_entry(t_node **list, int r)
 	return (p->elem);
 }
 
+void	clear_list(t_node **list)
+{
+	t_node	*tmp;
+	t_node	*p;
+
+	p = *list;
+	while (p)
+	{
+		tmp = p;
+		p = p->next;
+		free(tmp);
+	}
+}
+
+// 출력
 void	print(t_node **list)
 {
 	t_node	*p = *list;
 
-	while (p)
+	p = p->next;
+	while (p->next)
 	{
 		printf("%c", p->elem);
 		p = p->next;
@@ -90,8 +105,7 @@ void	print(t_node **list)
 	printf("\n");
 }
 
-
-
+// 메인부
 int	main()
 {
 	t_node	*head;
@@ -102,7 +116,7 @@ int	main()
 	char	elem;
 	int		out;
 
-	// 초기화5
+	// 초기화
 	head = (t_node *)malloc(sizeof(t_node));
 	tail = (t_node *)malloc(sizeof(t_node));
 	head->next = tail;
@@ -147,6 +161,7 @@ int	main()
 				printf("invalid position\n");
 		}
 	}
+	clear_list(&head);
 	printf("\n");
 	return (0);
 }
